@@ -1,6 +1,8 @@
-logs/
-data/
 .idea/
+data/
+logs/
 
 *.p
 *.pth
+*.rar
+*.zip
