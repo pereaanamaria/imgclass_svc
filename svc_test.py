@@ -1,13 +1,13 @@
-import pandas as pd
-from sklearn import svm
-from sklearn.model_selection import GridSearchCV
 import matplotlib.pyplot as plt
-from skimage.transform import resize
-from skimage.io import imread
 import numpy as np
+import pandas as pd
 import pickle
-import main as m
+import svc_classifier
 
+from sklearn import svm
+from skimage.io import imread
+from sklearn.model_selection import GridSearchCV
+from skimage.transform import resize
 
 global flat_data_arr
 global target_arr
@@ -60,8 +60,7 @@ def test(path_model, categories):
         new_data_frame = pd.DataFrame(flat_df)
         new_data_frame['Target'] = tar_arr
 
-        # model1 = GridSearchCV(svc, param_grid)
-        x_train1, x_test1, y_train1, y_test1 = m.split_data(new_data_frame)
+        x_train1, x_test1, y_train1, y_test1 = svc_classifier.split_data(new_data_frame)
 
         new_param_grid = {}
         for param in model.best_params_:
@@ -72,8 +71,8 @@ def test(path_model, categories):
         model1.fit(x_train1, y_train1)
         y_pred1 = model1.predict(x_test1)
 
-        print(f'New accuracy: {m.get_accuracy_percent(y_pred1, y_test1)}%')
-        m.dump_model(model1, path_model)
+        print(f'New accuracy: {svc_classifier.get_accuracy_percent(y_pred1, y_test1)}%')
+        svc_classifier.dump_model(model1, path_model)
 
         print(f'LEARNING THE IMAGE STATUS :: END\n')
 
@@ -95,13 +94,11 @@ def test_again():
 
 
 if __name__ == '__main__':
-    # PATH = r'D:\monash\datasets\indoor\indoorCVPR_09\Images'
-    # PATH = r'D:\monash\datasets\indoor\selected'
-    PATH = r'D:\monash\datasets\indoor\fewer_selected'
-    categories = m.load_categories(PATH)
+    PATH = r'.\data\indoor'
+    categories = svc_classifier.load_categories(PATH)
 
-    data_frame, flat_data_arr, target_arr = m.create_dataframe(categories, PATH)
-    x_train, x_test, y_train, y_test = m.split_data(data_frame)
+    data_frame, flat_data_arr, target_arr = svc_classifier.create_dataframe(categories, PATH)
+    x_train, x_test, y_train, y_test = svc_classifier.split_data(data_frame)
     print(f'Data was split successfully.')
 
     PATH_MODEL = r'img_model.p'

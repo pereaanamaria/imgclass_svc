@@ -7,5 +7,9 @@ https://www.kaggle.com/datasets/itsahmad/indoor-scenes-cvpr-2019.
 For this example, only the following categories were used: bedroom, classroom, florist, and office.
 
 ## Source code
-The architecture is based on the following example: 
+The architecture is based on the following example:<br /> 
 https://medium.com/analytics-vidhya/image-classification-using-machine-learning-support-vector-machine-svm-dc7a0ec92e01
+
+## Virtual environment
+Use the **requirements.txt** file in order to create your virtual environment.<br />
+```pip install -r requirements.txt```

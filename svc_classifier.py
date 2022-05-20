@@ -1,19 +1,17 @@
-import pandas as pd
-from sklearn import svm
-from sklearn.model_selection import GridSearchCV
-import os
-import matplotlib.pyplot as plt
-from skimage.transform import resize
-from skimage.io import imread
 import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
+import os
+import pandas as pd
 import pickle
+
+from sklearn import svm
+from skimage.io import imread
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import GridSearchCV, train_test_split
+from skimage.transform import resize
 
 global flat_data_arr
 global target_arr
 global svc
-# global param_grid
 
 
 def load_categories(path):
@@ -27,7 +25,6 @@ def create_dataframe(categories, data_dir):
     target_arr = []
 
     for category in categories:
-        print(f'loading... category :: {category}')
         path = os.path.join(data_dir, category)
 
         for img in os.listdir(path):
@@ -36,7 +33,7 @@ def create_dataframe(categories, data_dir):
             flat_data_arr.append(img_resized.flatten())
             target_arr.append(categories.index(category))
 
-        print(f'loaded category :: {category} successfully')
+        print(f'Loaded category :: {category}')
 
     print(f'LOADING STATUS :: END\n')
 
@@ -44,6 +41,7 @@ def create_dataframe(categories, data_dir):
     target = np.array(target_arr)
     data_frame = pd.DataFrame(flat_data)
     data_frame['Target'] = target
+
     return data_frame, flat_data_arr, target_arr
 
 
@@ -93,9 +91,7 @@ def dump_model(model, path):
 
 
 if __name__ == '__main__':
-    # PATH = r'D:\monash\datasets\indoor\indoorCVPR_09\Images'
-    # PATH = r'D:\monash\datasets\indoor\selected'
-    PATH = r'D:\monash\datasets\indoor\fewer_selected'
+    PATH = r'.\data\indoor'
     categories = load_categories(PATH)
 
     data_frame, _, _ = create_dataframe(categories, PATH)
